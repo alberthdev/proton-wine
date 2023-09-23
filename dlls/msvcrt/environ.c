@@ -25,6 +25,8 @@
 
 WINE_DEFAULT_DEBUG_CHANNEL(msvcrt);
 
+static char userprofile[30] = "C:\\users\\steamuser\0";
+
 /*********************************************************************
  *		getenv (MSVCRT.@)
  */
@@ -43,6 +45,14 @@ char * CDECL getenv(const char *name)
             return pos + 1;
         }
     }
+
+    //HACK: farlight 84 hack
+    if(strcmp(name, "USERPROFILE") == 0)
+    {
+        FIXME("USERPROFILE %s\n", debugstr_a(userprofile));
+        return userprofile;
+    }
+
     return NULL;
 }
 
